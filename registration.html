@@ -101,6 +101,14 @@
       .btn:hover {
         background: #941c1c;
       }
+      .btn-secondary {
+        background: #666;
+        color: #fff;
+        margin-right: 12px;
+      }
+      .btn-secondary:hover {
+        background: #4d4d4d;
+      }
       .note {
         font-size: 13px;
         color: #555;
@@ -128,6 +136,50 @@
         border-radius: 6px;
         margin-bottom: 20px;
       }
+      .notif-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px 22px 16px;
+        background: #143b18;
+        color: #fff;
+        font-size: 14px;
+        line-height: 1.45;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        z-index: 9999;
+        display: none;
+        animation: slideDown 0.4s ease;
+      }
+      .notif-banner.success {
+        background: #0f5f30;
+      }
+      .notif-banner .close-btn {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        line-height: 1;
+      }
+      .notif-banner a {
+        color: #fff;
+        text-decoration: underline;
+      }
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
@@ -137,9 +189,7 @@
     </div>
     <div class="reg-wrapper">
       <a class="back" href="durga-pujo-2025.html">← Back to Event Page</a>
-      <div id="success" class="success-msg">
-        Thank you! Your registration was recorded (demo).
-      </div>
+      <div id="success" class="success-msg" aria-live="polite"></div>
       <form id="regForm" onsubmit="handleSubmit(event)">
         <div class="inline">
           <div class="field">
@@ -193,14 +243,7 @@
                     aria-label="Shashti Full Day"
                   />
                 </td>
-                <td>
-                  <input
-                    type="radio"
-                    name="shashti"
-                    value="lunch"
-                    aria-label="Shashti Lunch"
-                  />
-                </td>
+                <td></td>
                 <td>
                   <input
                     type="radio"
@@ -293,30 +336,16 @@
               </tr>
               <tr>
                 <td>Dashami (Thu 2 Oct)</td>
-                <td>
-                  <input
-                    type="radio"
-                    name="dashami"
-                    value="full"
-                    aria-label="Dashami Full Day"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="radio"
-                    name="dashami"
-                    value="lunch"
-                    aria-label="Dashami Lunch"
-                  />
-                </td>
+                <td></td>
                 <td>
                   <input
                     type="radio"
                     name="dashami"
                     value="dinner"
-                    aria-label="Dashami Dinner"
+                    aria-label="Dashami Lunch"
                   />
                 </td>
+                <td></td>
               </tr>
             </tbody>
           </table>
@@ -329,7 +358,7 @@
           <label for="adults"
             >Number of Adults Family Members (above 12 years)</label
           >
-          <input id="adults" name="adults" type="number" min="0" value="0" />
+          <input id="adults" name="adults" type="number" min="1" value="1" />
         </div>
         <div class="field">
           <label for="children">Number of Children (between 6- 12 years)</label>
@@ -344,6 +373,23 @@
         <div class="field">
           <label for="infants">Number of Infants (below 6 years)</label>
           <input id="infants" name="infants" type="number" min="0" value="0" />
+        </div>
+        <div class="field">
+          <label for="totalCost">Total Cost (estimated)</label>
+          <input
+            id="totalCost"
+            name="totalCost"
+            type="text"
+            value="€0.00"
+            readonly
+            style="background: #f9f9f9; font-weight: 600; cursor: not-allowed"
+            aria-describedby="totalCostHelp"
+          />
+          <div id="totalCostHelp" class="mini-note">
+            Calculated from selected day options: Adult (Full 29.99 / Lunch
+            14.99 / Dinner 24.99) | Child 6–12 (Full 15.99 / Lunch 8.99 / Dinner
+            12.99). Infants free.
+          </div>
         </div>
         <div class="field">
           <label>Food Preference <span class="required">*</span></label>
@@ -391,7 +437,66 @@
             placeholder="E.g., I would like my child to perform a dance, I'm a singer, etc."
           ></textarea>
         </div>
+        <div
+          class="field"
+          style="
+            border: 1px solid #f0d9d9;
+            padding: 14px 16px;
+            border-radius: 8px;
+            background: #fff8f8;
+          "
+        >
+          <label style="font-weight: 600; margin-bottom: 8px; display: block"
+            >Payment & Cancellation Policy
+            <span class="required">*</span></label
+          >
+          <p style="font-size: 13px; line-height: 1.45; margin: 0 0 8px">
+            Please transfer the estimated total amount within
+            <strong>72 hours</strong> to confirm your booking. Unpaid
+            registrations after 72 hours may be cancelled to free capacity.
+          </p>
+          <div
+            style="
+              font-size: 13px;
+              background: #faf2f2;
+              padding: 10px 12px;
+              border-radius: 6px;
+              margin: 0 0 10px;
+            "
+          >
+            <strong>Bank Account (DeBI e.V.)</strong><br />
+            IBAN: <span id="ibanValue">DE26 1001 8000 0565 6573 12</span><br />
+            BIC: <span id="bicValue">FNOMDEB2</span><br />
+            Reference: generated UniqueId + "Your Name"
+          </div>
+          <label
+            style="
+              display: flex;
+              align-items: flex-start;
+              gap: 8px;
+              font-weight: 500;
+              font-size: 14px;
+              cursor: pointer;
+            "
+          >
+            <input
+              type="checkbox"
+              id="paymentAck"
+              required
+              className="payment-check"
+            />
+            I understand my registration may be cancelled if payment is not
+            received within 72 hours.
+          </label>
+        </div>
         <div class="actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="clearDaySelections()"
+          >
+            Clear Day Selections
+          </button>
           <button class="btn" type="submit">Submit Registration</button>
         </div>
         <p class="note">
@@ -407,7 +512,36 @@
         <a href="member-registration.html">Become a Member</a>
       </p>
     </footer>
+    <div
+      id="notif"
+      class="notif-banner"
+      role="alert"
+      aria-live="assertive"
+    ></div>
     <script>
+      const PRICE_TABLE = {
+        adult: { full: 29.99, lunch: 14.99, dinner: 24.99 },
+        child: { full: 15.99, lunch: 8.99, dinner: 12.99 },
+      };
+
+      function calcTotal() {
+        const adults =
+          parseInt(document.getElementById("adults").value, 10) || 0;
+        const children =
+          parseInt(document.getElementById("children").value, 10) || 0;
+        let total = 0;
+        const days = ["shashti", "saptami", "ashtami", "nabami", "dashami"];
+        days.forEach((d) => {
+          const sel = document.querySelector(`input[name="${d}"]:checked`);
+          if (sel) {
+            const v = sel.value; // full | lunch | dinner
+            total +=
+              adults * PRICE_TABLE.adult[v] + children * PRICE_TABLE.child[v];
+          }
+        });
+        document.getElementById("totalCost").value = "€" + total.toFixed(2);
+      }
+
       function handleSubmit(e) {
         e.preventDefault();
         // Validation: ensure at least one radio selected across all days
@@ -418,12 +552,72 @@
           alert("Please select at least one day option.");
           return;
         }
-        const success = document.getElementById("success");
-        success.style.display = "block";
+        // ensure total is up to date
+        calcTotal();
+        const refId = generateReferenceId();
+        const totalVal = document.getElementById("totalCost").value;
+        const html =
+          "<strong>Registration saved (demo).</strong> Total: <strong>" +
+          totalVal +
+          "</strong> | ID: <strong>" +
+          refId +
+          '</strong><br /><span style="opacity:.85">Include this ID + your name in bank transfer reference within 72h to confirm.</span>';
+        showNotification(html, "success");
         e.target.reset();
+        document.getElementById("totalCost").value = "€0.00";
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
       // (Radio buttons handle mutual exclusivity automatically per day via shared names)
+
+      // Attach listeners for dynamic total calculation
+      (function initCostListeners() {
+        const inputs = [
+          ...document.querySelectorAll('table.day-grid input[type="radio"]'),
+          document.getElementById("adults"),
+          document.getElementById("children"),
+        ];
+        inputs.forEach((el) => {
+          el.addEventListener("change", calcTotal);
+          el.addEventListener("input", calcTotal);
+        });
+      })();
+
+      function clearDaySelections() {
+        document
+          .querySelectorAll('table.day-grid input[type="radio"]:checked')
+          .forEach((r) => (r.checked = false));
+        calcTotal();
+      }
+
+      function generateReferenceId() {
+        // Prefix for event + year; ensure alphanumeric uppercase only
+        const prefix = "DP2025"; // Durga Pujo 2025
+        // Use timestamp + random for uniqueness, then filter to A-Z0-9 and trim length
+        const core = (
+          Date.now().toString(36) + Math.random().toString(36).substring(2, 10)
+        )
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, "");
+        return (prefix + core).substring(0, prefix.length + 8); // e.g. DP2025 + 8 chars
+      }
+
+      function showNotification(messageHtml, type = "info") {
+        const bar = document.getElementById("notif");
+        bar.className = "notif-banner " + (type === "success" ? "success" : "");
+        bar.innerHTML =
+          '<button class="close-btn" aria-label="Close notification" onclick="hideNotification()">×</button>' +
+          messageHtml;
+        bar.style.display = "block";
+        // Auto-hide after 15s
+        clearTimeout(window.__notifTimer);
+        window.__notifTimer = setTimeout(() => {
+          hideNotification();
+        }, 15000);
+      }
+      function hideNotification() {
+        const bar = document.getElementById("notif");
+        bar.style.display = "none";
+      }
     </script>
   </body>
 </html>
