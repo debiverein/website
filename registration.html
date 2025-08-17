@@ -170,6 +170,9 @@
         color: #fff;
         text-decoration: underline;
       }
+      .notif-banner.error {
+        background: #7e1b1b;
+      }
       @keyframes slideDown {
         from {
           transform: translateY(-100%);
@@ -526,8 +529,9 @@
           </button>
           <button class="btn" type="submit">Submit Registration</button>
         </div>
-        <p class="note">
-          This is a demo form (no backend yet). We'll add real submission later.
+        <p class="note" id="backendNote">
+          This form stores submissions securely in Firebase Firestore. Use the
+          generated ID in your bank transfer reference.
         </p>
       </form>
     </div>
@@ -546,6 +550,7 @@
       aria-live="assertive"
     ></div>
     <script>
+      // Pricing constants (keep in sync with published rates)
       const PRICE_TABLE = {
         adult: { full: 29.99, lunch: 14.99, dinner: 24.99 },
         child: { full: 15.99, lunch: 8.99, dinner: 12.99 },
@@ -571,28 +576,28 @@
 
       function handleSubmit(e) {
         e.preventDefault();
-        // Validation: ensure at least one radio selected across all days
+        // Validate at least one day selected
         const anySelected = Array.from(
           document.querySelectorAll('table.day-grid input[type="radio"]')
         ).some((r) => r.checked);
         if (!anySelected) {
-          alert("Please select at least one day option.");
+          showNotification(
+            "<strong>Error:</strong> Please select at least one day.",
+            "error"
+          );
           return;
         }
-        // ensure total is up to date
+        // Validate payment policy acknowledgement
+        const paymentAck = document.getElementById("paymentAck");
+        if (paymentAck && !paymentAck.checked) {
+          showNotification(
+            "<strong>Error:</strong> Please accept the payment & cancellation policy.",
+            "error"
+          );
+          return;
+        }
         calcTotal();
-        const refId = generateReferenceId();
-        const totalVal = document.getElementById("totalCost").value;
-        const html =
-          "<strong>Registration saved (demo).</strong> Total: <strong>" +
-          totalVal +
-          "</strong> | ID: <strong>" +
-          refId +
-          '</strong><br /><span style="opacity:.85">Include this ID + your name in bank transfer reference within 72h to confirm.</span>';
-        showNotification(html, "success");
-        e.target.reset();
-        document.getElementById("totalCost").value = "€0.00";
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        submitToFirestore(e.target);
       }
       // (Radio buttons handle mutual exclusivity automatically per day via shared names)
 
@@ -617,33 +622,118 @@
       }
 
       function generateReferenceId() {
-        // Prefix for event + year; ensure alphanumeric uppercase only
-        const prefix = "DP2025"; // Durga Pujo 2025
-        // Use timestamp + random for uniqueness, then filter to A-Z0-9 and trim length
+        // fallback if Firestore ID unavailable
+        const prefix = "DP2025";
         const core = (
           Date.now().toString(36) + Math.random().toString(36).substring(2, 10)
         )
           .toUpperCase()
           .replace(/[^A-Z0-9]/g, "");
-        return (prefix + core).substring(0, prefix.length + 8); // e.g. DP2025 + 8 chars
+        return (prefix + core).substring(0, prefix.length + 8);
       }
 
       function showNotification(messageHtml, type = "info") {
         const bar = document.getElementById("notif");
-        bar.className = "notif-banner " + (type === "success" ? "success" : "");
+        const cls =
+          type === "success" ? "success" : type === "error" ? "error" : "";
+        bar.className = "notif-banner " + cls;
         bar.innerHTML =
           '<button class="close-btn" aria-label="Close notification" onclick="hideNotification()">×</button>' +
           messageHtml;
         bar.style.display = "block";
-        // Auto-hide after 15s
         clearTimeout(window.__notifTimer);
-        window.__notifTimer = setTimeout(() => {
-          hideNotification();
-        }, 15000);
+        window.__notifTimer = setTimeout(() => hideNotification(), 15000);
       }
       function hideNotification() {
         const bar = document.getElementById("notif");
         bar.style.display = "none";
+      }
+      // Firebase Firestore integration -----------------------------
+      const firebaseConfig = {
+        apiKey: "AIzaSyD4pmcZJGPnrks5plPxSxdpUPSfYiB77l0",
+        authDomain: "debi-rsvp-2025.firebaseapp.com",
+        projectId: "debi-rsvp-2025",
+        storageBucket: "debi-rsvp-2025.firebasestorage.app",
+        messagingSenderId: "902800968182",
+        appId: "1:902800968182:web:bb67a50242c3fc2d945fd7",
+        measurementId: "G-44BVW6X39C",
+      };
+      let _fbReady = false;
+      let _fbDeps = null;
+      async function ensureFirebase() {
+        if (_fbReady) return _fbDeps;
+        const [appMod, fsMod] = await Promise.all([
+          import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"),
+          import(
+            "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+          ),
+        ]);
+        const app = appMod.initializeApp(firebaseConfig);
+        const db = fsMod.getFirestore(app);
+        _fbDeps = {
+          db,
+          collection: fsMod.collection,
+          addDoc: fsMod.addDoc,
+          serverTimestamp: fsMod.serverTimestamp,
+        };
+        _fbReady = true;
+        return _fbDeps;
+      }
+      async function submitToFirestore(form) {
+        try {
+          const { db, collection, addDoc, serverTimestamp } =
+            await ensureFirebase();
+          const formData = new FormData(form);
+          const days = {};
+          ["shashti", "saptami", "ashtami", "nabami", "dashami"].forEach(
+            (d) => {
+              const sel = document.querySelector(`input[name="${d}"]:checked`);
+              if (sel) days[d] = sel.value;
+            }
+          );
+          const totalStr =
+            document.getElementById("totalCost").value || "€0.00";
+          const total = parseFloat(totalStr.replace(/[^0-9.]/g, "")) || 0;
+          const payload = {
+            firstName: (formData.get("firstName") || "").trim(),
+            lastName: (formData.get("lastName") || "").trim(),
+            email: (formData.get("email") || "").trim(),
+            phone: (formData.get("phone") || "").trim(),
+            adults: Number(formData.get("adults")) || 0,
+            children: Number(formData.get("children")) || 0,
+            infants: Number(formData.get("infants")) || 0,
+            food_pref: formData.get("food_pref") || "",
+            volunteer: formData.get("volunteer") || "",
+            message: formData.get("message") || "",
+            days,
+            total,
+            paymentAck: !!document.getElementById("paymentAck")?.checked,
+            createdAt: new Date().toISOString(),
+            createdAtServer: serverTimestamp(),
+          };
+          const col = collection(db, "registrations");
+          const docRef = await addDoc(col, payload);
+          showNotification(
+            `<strong>Registration saved.</strong> Total: <strong>€${total.toFixed(
+              2
+            )}</strong> | ID: <strong>${
+              docRef.id
+            }</strong><br /><span style="opacity:.85">Use this ID + your name in the bank transfer reference within 72h.</span>`,
+            "success"
+          );
+          form.reset();
+          document.getElementById("totalCost").value = "€0.00";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+          console.error(err);
+          const fallbackId = generateReferenceId();
+          showNotification(
+            `<strong>Submission failed:</strong> ${
+              err.message || "Unknown error"
+            }<br />Temporary reference (not stored): <strong>${fallbackId}</strong>`,
+            "error"
+          );
+        }
       }
     </script>
   </body>
