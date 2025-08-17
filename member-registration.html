@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Become a Member – debi e.V.</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .member-hero {
+        background: #b22222;
+        color: #fff;
+        text-align: center;
+        padding: 90px 20px 70px;
+      }
+      .member-hero h1 {
+        margin: 0 0 10px;
+        font-size: 40px;
+      }
+      .member-hero p {
+        margin: 0;
+        font-size: 18px;
+        opacity: 0.9;
+      }
+      .member-wrapper {
+        max-width: 760px;
+        margin: -40px auto 70px;
+        background: #fff;
+        padding: 42px 36px 50px;
+        border-radius: 16px;
+        box-shadow: 0 6px 26px rgba(0, 0, 0, 0.12);
+        position: relative;
+      }
+      form .field {
+        margin-bottom: 22px;
+      }
+      form label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      form input,
+      form textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+      form textarea {
+        min-height: 160px;
+        resize: vertical;
+        line-height: 1.4;
+      }
+      .btn {
+        background: #b22222;
+        color: #fff;
+        border: none;
+        padding: 14px 30px;
+        font-size: 16px;
+        border-radius: 32px;
+        cursor: pointer;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn:hover {
+        background: #941c1c;
+      }
+      .req {
+        color: #b22222;
+      }
+      .note {
+        font-size: 13px;
+        color: #555;
+        margin-top: 8px;
+      }
+      .success-box {
+        display: none;
+        background: #e6ffed;
+        border: 1px solid #b2f5c5;
+        color: #0f5f30;
+        padding: 16px 18px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+      .error-box {
+        display: none;
+        background: #ffecec;
+        border: 1px solid #f5b2b2;
+        color: #7d1111;
+        padding: 14px 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+      .inline-two {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .inline-two .field {
+        flex: 1;
+        min-width: 260px;
+      }
+      @media (max-width: 640px) {
+        .member-wrapper {
+          margin-top: 0;
+          padding: 34px 24px 44px;
+        }
+        .member-hero h1 {
+          font-size: 32px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="member-hero">
+      <h1>Become a Member</h1>
+      <p>Join us in fostering Indo–Bengali culture in Germany</p>
+    </div>
+    <div class="member-wrapper">
+      <div id="success" class="success-box">
+        Thank you! Your email program should now open. If it did not, please
+        copy the generated text below and email it to
+        <strong>debi.verein@gmail.com</strong>.
+      </div>
+      <div id="error" class="error-box">
+        Please fill in all required fields (Full Name, Email, Motivation).
+      </div>
+      <form id="memberForm" onsubmit="submitMembership(event)">
+        <div class="field">
+          <label for="fullName">Full Name <span class="req">*</span></label>
+          <input id="fullName" name="fullName" required autocomplete="name" />
+        </div>
+        <div class="inline-two">
+          <div class="field">
+            <label for="email">Email <span class="req">*</span></label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+            />
+          </div>
+          <div class="field">
+            <label for="mobile">Mobile Number</label>
+            <input
+              id="mobile"
+              name="mobile"
+              type="tel"
+              autocomplete="tel"
+              placeholder="Optional"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <label for="motivation"
+            >Why would you like to join? <span class="req">*</span></label
+          >
+          <textarea
+            id="motivation"
+            name="motivation"
+            required
+            placeholder="Tell us briefly about your interest, skills, cultural involvement, ideas, etc."
+          ></textarea>
+        </div>
+        <button type="submit" class="btn">Submit Membership Request</button>
+        <p class="note">
+          Submitting opens your email app with a pre-filled message (no data is
+          stored on this site).
+        </p>
+      </form>
+      <div id="generated" style="display: none; margin-top: 30px">
+        <h3>Generated Email Content (Fallback)</h3>
+        <pre
+          id="fallbackText"
+          style="
+            white-space: pre-wrap;
+            background: #f8f8f8;
+            padding: 14px 16px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.45;
+            overflow: auto;
+          "
+        ></pre>
+      </div>
+    </div>
+    <footer>
+      <p>
+        © 2025 debi e.V. All rights reserved. |
+        <a href="imprint.html">Imprint</a> |
+        <a href="satzung.html">Satzung</a> |
+        <a href="member-registration.html">Become a Member</a>
+      </p>
+    </footer>
+    <script>
+      function submitMembership(e) {
+        e.preventDefault();
+        const fullName = document.getElementById("fullName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const mobile = document.getElementById("mobile").value.trim();
+        const motivation = document.getElementById("motivation").value.trim();
+        const errBox = document.getElementById("error");
+        const okBox = document.getElementById("success");
+        if (!fullName || !email || !motivation) {
+          errBox.style.display = "block";
+          okBox.style.display = "none";
+          return;
+        }
+        errBox.style.display = "none";
+        const subject = encodeURIComponent(
+          "Membership Application - " + fullName
+        );
+        let bodyLines = [
+          "Full Name: " + fullName,
+          "Email: " + email,
+          "Mobile: " + (mobile || "-"),
+          "",
+          "Motivation:",
+          motivation,
+          "",
+          "---",
+          "Sent via debi e.V. website membership form",
+        ];
+        const body = encodeURIComponent(bodyLines.join("\n"));
+        const mailto =
+          "mailto:debi.verein@gmail.com?subject=" + subject + "&body=" + body;
+        // Try to open email client
+        window.location.href = mailto;
+        okBox.style.display = "block";
+        // Fallback display text
+        const fallback = document.getElementById("fallbackText");
+        fallback.textContent = bodyLines.join("\n");
+        document.getElementById("generated").style.display = "block";
+        e.target.reset();
+      }
+    </script>
+  </body>
+</html>
