@@ -46,6 +46,18 @@
       .back-link:hover {
         text-decoration: underline;
       }
+      .map-wrapper {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0 10px;
+      }
+      .map-wrapper iframe {
+        max-width: 100%;
+        width: 600px;
+        border: 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      }
     </style>
   </head>
   <body>
@@ -86,15 +98,17 @@
         the team.
       </p>
       <h2>Location</h2>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d333921.36229970894!2d8.099914771215836!3d49.16715133432002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799c54253690ced%3A0x2997769acd900aa7!2sElbestra%C3%9Fe%2039%2C%2070376%20Stuttgart!5e0!3m2!1sen!2sde!4v1755413279393!5m2!1sen!2sde"
-        width="600"
-        height="450"
-        style="border: 0"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
+      <div class="map-wrapper">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d333921.36229970894!2d8.099914771215836!3d49.16715133432002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799c54253690ced%3A0x2997769acd900aa7!2sElbestra%C3%9Fe%2039%2C%2070376%20Stuttgart!5e0!3m2!1sen!2sde!4v1755413279393!5m2!1sen!2sde"
+          width="600"
+          height="450"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Event Location Map"
+        ></iframe>
+      </div>
     </div>
     <footer>
       <p>
