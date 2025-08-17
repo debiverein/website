@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Registration - Durga Pujo 2025 | DeBI e.V.</title>
     <link rel="stylesheet" href="style.css" />
     <style>
@@ -33,30 +34,30 @@
         font-weight: 700;
         color: #b22222;
       }
+      /* New dropdown-based day selection styles */
+      .day-selects {
+        display: grid;
+        gap: 14px;
+        margin-top: 10px;
+      }
+      .day-select {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .day-select label {
+        flex: 0 0 190px;
+        margin: 0;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .day-select select {
+        flex: 1;
+      }
       form label {
         display: block;
         font-weight: 600;
         margin-bottom: 6px;
-      }
-      .day-grid {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-      }
-      .day-grid th,
-      .day-grid td {
-        padding: 8px 10px;
-        border: 1px solid #eee;
-        text-align: center;
-        font-size: 14px;
-      }
-      .day-grid th {
-        background: #faf6f6;
-        font-weight: 600;
-      }
-      .day-grid td:first-child {
-        text-align: left;
-        font-weight: 600;
       }
       .mini-note {
         font-size: 12px;
@@ -77,6 +78,14 @@
       form textarea {
         min-height: 120px;
         resize: vertical;
+      }
+      .foodpref {
+        width: unset;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
       }
       #paymentAck {
         width: unset;
@@ -208,6 +217,78 @@
           height: 360px;
         }
       }
+      /* Responsive adjustments */
+      @media (max-width: 760px) {
+        .reg-hero {
+          padding: 50px 16px 46px;
+        }
+        .reg-hero h1 {
+          font-size: 28px;
+          line-height: 1.15;
+          margin: 0 0 8px;
+        }
+        .reg-hero p {
+          font-size: 14px;
+          margin: 0;
+        }
+        .reg-wrapper {
+          margin: 28px 14px;
+          padding: 28px 18px;
+        }
+        .inline {
+          flex-direction: column;
+          gap: 4px;
+        }
+        .day-select {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 6px;
+        }
+        .day-select label {
+          flex: none;
+        }
+        fieldset {
+          padding: 16px 14px 18px;
+        }
+        form input,
+        form select,
+        form textarea {
+          font-size: 14px;
+        }
+        .actions {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .actions .btn {
+          width: 100%;
+        }
+        .btn {
+          padding: 12px 20px;
+          font-size: 15px;
+        }
+        .btn-secondary {
+          margin-right: 0;
+        }
+        .mini-note {
+          font-size: 11px;
+        }
+        .note {
+          font-size: 12px;
+        }
+        .table-scroll {
+          display: none;
+        }
+      }
+      @media (max-width: 480px) {
+        .reg-hero h1 {
+          font-size: 24px;
+        }
+        .reg-wrapper {
+          margin: 24px 10px;
+          padding: 24px 16px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -259,139 +340,54 @@
             Daily Participation & Meals <span class="required">*</span>
           </legend>
           <p style="margin-top: 0; font-size: 14px; line-height: 1.4">
-            Tick the options you plan to attend. Choose Full Day OR individual
-            meals (Lunch / Dinner).
+            Choose an option for each day you plan to attend (leave as None if
+            you will not attend that day). Full Day already includes meals.
           </p>
-          <table class="day-grid" aria-describedby="dayOptionsHelp">
-            <thead>
-              <tr>
-                <th scope="col">Day</th>
-                <th scope="col">Full Day</th>
-                <th scope="col">Lunch / Bhog</th>
-                <th scope="col">Dinner / Evening</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Shashti (Sun 28 Sept)</td>
-                <td>
-                  <input
-                    type="radio"
-                    name="shashti"
-                    value="full"
-                    aria-label="Shashti Full Day"
-                  />
-                </td>
-                <td></td>
-                <td>
-                  <input
-                    type="radio"
-                    name="shashti"
-                    value="dinner"
-                    aria-label="Shashti Dinner"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Saptami (Mon 29 Sept)</td>
-                <td>
-                  <input
-                    type="radio"
-                    name="saptami"
-                    value="full"
-                    aria-label="Saptami Full Day"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="radio"
-                    name="saptami"
-                    value="lunch"
-                    aria-label="Saptami Lunch"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="radio"
-                    name="saptami"
-                    value="dinner"
-                    aria-label="Saptami Dinner"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Ashtami (Tue 30 Sept)</td>
-                <td>
-                  <input
-                    type="radio"
-                    name="ashtami"
-                    value="full"
-                    aria-label="Ashtami Full Day"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="radio"
-                    name="ashtami"
-                    value="lunch"
-                    aria-label="Ashtami Lunch"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="radio"
-                    name="ashtami"
-                    value="dinner"
-                    aria-label="Ashtami Dinner"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Nabami (Wed 1 Oct)</td>
-                <td>
-                  <input
-                    type="radio"
-                    name="nabami"
-                    value="full"
-                    aria-label="Nabami Full Day"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="radio"
-                    name="nabami"
-                    value="lunch"
-                    aria-label="Nabami Lunch"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="radio"
-                    name="nabami"
-                    value="dinner"
-                    aria-label="Nabami Dinner"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Dashami (Thu 2 Oct)</td>
-                <td></td>
-                <td>
-                  <input
-                    type="radio"
-                    name="dashami"
-                    value="dinner"
-                    aria-label="Dashami Lunch"
-                  />
-                </td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="mini-note" id="dayOptionsHelp">
-            Select one option per day you will attend (days you skip can be left
-            blank).
+          <div class="day-selects" id="dayOptionsHelp">
+            <div class="day-select">
+              <label for="shashtiSel">Shashti (Sun 28 Sept)</label>
+              <select name="shashti" id="shashtiSel">
+                <option value="">None</option>
+                <option value="full">Full Day</option>
+                <option value="dinner">Dinner</option>
+              </select>
+            </div>
+            <div class="day-select">
+              <label for="saptamiSel">Saptami (Mon 29 Sept)</label>
+              <select name="saptami" id="saptamiSel">
+                <option value="">None</option>
+                <option value="full">Full Day</option>
+                <option value="lunch">Lunch / Bhog</option>
+                <option value="dinner">Dinner</option>
+              </select>
+            </div>
+            <div class="day-select">
+              <label for="ashtamiSel">Ashtami (Tue 30 Sept)</label>
+              <select name="ashtami" id="ashtamiSel">
+                <option value="">None</option>
+                <option value="full">Full Day</option>
+                <option value="lunch">Lunch / Bhog</option>
+                <option value="dinner">Dinner</option>
+              </select>
+            </div>
+            <div class="day-select">
+              <label for="nabamiSel">Nabami (Wed 1 Oct)</label>
+              <select name="nabami" id="nabamiSel">
+                <option value="">None</option>
+                <option value="full">Full Day</option>
+                <option value="lunch">Lunch / Bhog</option>
+                <option value="dinner">Dinner</option>
+              </select>
+            </div>
+            <div class="day-select">
+              <label for="dashamiSel">Dashami (Thu 2 Oct)</label>
+              <select name="dashami" id="dashamiSel">
+                <option value="">None</option>
+                <option value="dinner">Lunch</option>
+              </select>
+            </div>
           </div>
+          <div class="mini-note">At least one day selection is required.</div>
         </fieldset>
         <div class="field">
           <label for="adults"
@@ -447,7 +443,14 @@
                 gap: 6px;
               "
             >
-              <input type="radio" name="food_pref" value="veg" required /> Veg
+              <input
+                type="radio"
+                name="food_pref"
+                value="veg"
+                class="foodpref"
+                required
+              />
+              Veg
             </label>
             <label
               style="
@@ -457,7 +460,13 @@
                 gap: 6px;
               "
             >
-              <input type="radio" name="food_pref" value="non-veg" required />
+              <input
+                type="radio"
+                name="food_pref"
+                value="non-veg"
+                class="foodpref"
+                required
+              />
               Non-Veg
             </label>
           </div>
@@ -574,11 +583,11 @@
         let total = 0;
         const days = ["shashti", "saptami", "ashtami", "nabami", "dashami"];
         days.forEach((d) => {
-          const sel = document.querySelector(`input[name="${d}"]:checked`);
-          if (sel) {
-            const v = sel.value; // full | lunch | dinner
+          const val = document.querySelector(`[name="${d}"]`)?.value;
+          if (val) {
             total +=
-              adults * PRICE_TABLE.adult[v] + children * PRICE_TABLE.child[v];
+              adults * PRICE_TABLE.adult[val] +
+              children * PRICE_TABLE.child[val];
           }
         });
         document.getElementById("totalCost").value = "€" + total.toFixed(2);
@@ -587,9 +596,13 @@
       function handleSubmit(e) {
         e.preventDefault();
         // Validate at least one day selected
-        const anySelected = Array.from(
-          document.querySelectorAll('table.day-grid input[type="radio"]')
-        ).some((r) => r.checked);
+        const anySelected = [
+          "shashti",
+          "saptami",
+          "ashtami",
+          "nabami",
+          "dashami",
+        ].some((d) => document.querySelector(`[name="${d}"]`)?.value);
         if (!anySelected) {
           showNotification(
             "<strong>Error:</strong> Please select at least one day.",
@@ -614,10 +627,12 @@
       // Attach listeners for dynamic total calculation
       (function initCostListeners() {
         const inputs = [
-          ...document.querySelectorAll('table.day-grid input[type="radio"]'),
+          ...["shashti", "saptami", "ashtami", "nabami", "dashami"].map((d) =>
+            document.querySelector(`[name="${d}"]`)
+          ),
           document.getElementById("adults"),
           document.getElementById("children"),
-        ];
+        ].filter(Boolean);
         inputs.forEach((el) => {
           el.addEventListener("change", calcTotal);
           el.addEventListener("input", calcTotal);
@@ -625,9 +640,10 @@
       })();
 
       function clearDaySelections() {
-        document
-          .querySelectorAll('table.day-grid input[type="radio"]:checked')
-          .forEach((r) => (r.checked = false));
+        ["shashti", "saptami", "ashtami", "nabami", "dashami"].forEach((d) => {
+          const el = document.querySelector(`[name="${d}"]`);
+          if (el) el.value = "";
+        });
         calcTotal();
       }
 
@@ -697,8 +713,8 @@
           const days = {};
           ["shashti", "saptami", "ashtami", "nabami", "dashami"].forEach(
             (d) => {
-              const sel = document.querySelector(`input[name="${d}"]:checked`);
-              if (sel) days[d] = sel.value;
+              const v = document.querySelector(`[name="${d}"]`)?.value;
+              if (v) days[d] = v;
             }
           );
           const totalStr =
