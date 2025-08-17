@@ -73,9 +73,18 @@
         font-size: 15px;
         box-sizing: border-box;
       }
+
       form textarea {
         min-height: 120px;
         resize: vertical;
+      }
+      #paymentAck {
+        width: unset;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
       }
       .inline {
         display: flex;
@@ -204,7 +213,7 @@
   <body>
     <div class="reg-hero">
       <h1>Durga Pujo 2025 Registration</h1>
-      <p>September 28th – October 2nd | Stuttgart</p>
+      <p>September 28th – October 2nd | Elbestraße 39, 70376 Stuttgart</p>
     </div>
     <div>
       <h2 style="text-align: center; margin-top: 50px">Location</h2>
@@ -401,8 +410,14 @@
           />
         </div>
         <div class="field">
-          <label for="infants">Number of Infants (below 6 years)</label>
-          <input id="infants" name="infants" type="number" min="0" value="0" />
+          <label for="children6">Number of Children (below 6 years)</label>
+          <input
+            id="children6"
+            name="children6"
+            type="number"
+            min="0"
+            value="0"
+          />
         </div>
         <div class="field">
           <label for="totalCost">Total Cost (estimated)</label>
@@ -418,7 +433,7 @@
           <div id="totalCostHelp" class="mini-note">
             Calculated from selected day options: Adult (Full 29.99 / Lunch
             14.99 / Dinner 24.99) | Child 6–12 (Full 15.99 / Lunch 8.99 / Dinner
-            12.99). Infants free.
+            12.99). Child below 6 free.
           </div>
         </div>
         <div class="field">
@@ -509,12 +524,7 @@
               cursor: pointer;
             "
           >
-            <input
-              type="checkbox"
-              id="paymentAck"
-              required
-              className="payment-check"
-            />
+            <input type="checkbox" id="paymentAck" required />
             I understand my registration may be cancelled if payment is not
             received within 72 hours.
           </label>
@@ -701,7 +711,7 @@
             phone: (formData.get("phone") || "").trim(),
             adults: Number(formData.get("adults")) || 0,
             children: Number(formData.get("children")) || 0,
-            infants: Number(formData.get("infants")) || 0,
+            children6: Number(formData.get("children6")) || 0,
             food_pref: formData.get("food_pref") || "",
             volunteer: formData.get("volunteer") || "",
             message: formData.get("message") || "",
