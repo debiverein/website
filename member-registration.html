@@ -136,6 +136,10 @@
           <label for="fullName">Full Name <span class="req">*</span></label>
           <input id="fullName" name="fullName" required autocomplete="name" />
         </div>
+        <div class="field">
+          <label for="dob">Date of Birth</label>
+          <input id="dob" name="dob" type="date" />
+        </div>
         <div class="inline-two">
           <div class="field">
             <label for="email">Email <span class="req">*</span></label>
@@ -158,6 +162,16 @@
             />
           </div>
         </div>
+
+        <div class="field">
+          <label for="address">Address</label>
+          <textarea
+            id="address"
+            name="address"
+            placeholder="Street, Number, ZIP, City, Country"
+            style="min-height: 120px"
+          ></textarea>
+        </div>
         <div class="field">
           <label for="motivation"
             >Why would you like to join? <span class="req">*</span></label
@@ -169,6 +183,84 @@
             placeholder="Tell us briefly about your interest, skills, cultural involvement, ideas, etc."
           ></textarea>
         </div>
+        <section
+          style="
+            margin: 34px 0 30px;
+            padding: 24px 22px 4px;
+            border: 1px solid #eadcdc;
+            border-radius: 14px;
+            background: #fff9f9;
+          "
+        >
+          <h2 style="margin-top: 0; font-size: 20px; color: #b22222">
+            Membership Information
+          </h2>
+          <h3 style="font-size: 16px; margin: 18px 0 6px; color: #444">
+            Membership fee
+          </h3>
+          <p style="margin: 0 0 14px">
+            Joining fees is <strong>25 Euros</strong> and The monthly
+            contribution is <strong>10 Euros</strong>
+            month for adults above 17 years. Below 17 years, there are no
+            membership fees.
+          </p>
+          <h3 style="font-size: 16px; margin: 18px 0 6px; color: #444">
+            Admission
+          </h3>
+          <p style="margin: 0 0 14px">
+            Admission to the Association will be decided of the Board of
+            Directors.
+          </p>
+          <h3 style="font-size: 16px; margin: 18px 0 6px; color: #444">
+            Regulations of the association
+          </h3>
+          <p style="margin: 0 0 14px">
+            With my signature, I acknowledge the statutes of the association as
+            well as the determination of the contributions in the respective
+            valid version.
+          </p>
+          <p style="margin: 0 0 14px">
+            With my signature, I also confirm that I have received the current
+            version of the Association’s Articles of Association.
+          </p>
+          <h3 style="font-size: 16px; margin: 18px 0 6px; color: #444">
+            Privacy policy
+          </h3>
+          <p style="margin: 0 0 14px">
+            I agree to the storage, transmission, and processing of my personal
+            data for association purposes in accordance with the statutes and
+            the data protection provisions of the Federal Data Protection Act
+            (BDSG). I have the possibility to receive information from the
+            association about this data of mine at any time. My data will be
+            deleted after I leave the association. I also agree with the
+            publication on the homepage of the association
+            <a href="https://www.debiev.de/" target="_blank" rel="noopener"
+              >www.debiev.de/</a
+            >
+            and the passing on to other members of the association.
+          </p>
+          <div
+            style="
+              margin: 22px 0 26px;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            "
+          >
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 14px;
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="ack" required /> I have read and agree
+              to the above information.
+            </label>
+          </div>
+        </section>
         <button type="submit" class="btn">Submit Membership Request</button>
         <p class="note">
           Submitting opens your email app with a pre-filled message (no data is
@@ -206,6 +298,8 @@
         const fullName = document.getElementById("fullName").value.trim();
         const email = document.getElementById("email").value.trim();
         const mobile = document.getElementById("mobile").value.trim();
+        const dob = document.getElementById("dob")?.value || "";
+        const address = document.getElementById("address")?.value.trim() || "";
         const motivation = document.getElementById("motivation").value.trim();
         const errBox = document.getElementById("error");
         const okBox = document.getElementById("success");
@@ -222,6 +316,8 @@
           "Full Name: " + fullName,
           "Email: " + email,
           "Mobile: " + (mobile || "-"),
+          "Date of Birth: " + (dob || "-"),
+          "Address: " + (address || "-"),
           "",
           "Motivation:",
           motivation,
