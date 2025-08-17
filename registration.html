@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Registration - Durga Pujo 2025 | DeBI e.V.</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .reg-hero {
+        background: #b22222;
+        color: #fff;
+        padding: 80px 20px;
+        text-align: center;
+      }
+      .reg-wrapper {
+        max-width: 780px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 35px 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+      }
+      form .field {
+        margin-bottom: 18px;
+      }
+      fieldset {
+        border: 1px solid #ddd;
+        padding: 18px 20px 22px;
+        border-radius: 10px;
+        margin-bottom: 24px;
+      }
+      fieldset legend {
+        padding: 0 8px;
+        font-weight: 700;
+        color: #b22222;
+      }
+      form label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .day-grid {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      .day-grid th,
+      .day-grid td {
+        padding: 8px 10px;
+        border: 1px solid #eee;
+        text-align: center;
+        font-size: 14px;
+      }
+      .day-grid th {
+        background: #faf6f6;
+        font-weight: 600;
+      }
+      .day-grid td:first-child {
+        text-align: left;
+        font-weight: 600;
+      }
+      .mini-note {
+        font-size: 12px;
+        color: #555;
+        margin-top: 6px;
+      }
+      form input,
+      form select,
+      form textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
+      }
+      form textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .inline {
+        display: flex;
+        gap: 16px;
+      }
+      .inline .field {
+        flex: 1;
+      }
+      .actions {
+        margin-top: 10px;
+      }
+      .btn {
+        background: #b22222;
+        color: #fff;
+        border: none;
+        padding: 12px 26px;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+      .btn:hover {
+        background: #941c1c;
+      }
+      .note {
+        font-size: 13px;
+        color: #555;
+        margin-top: 4px;
+      }
+      .back {
+        display: inline-block;
+        margin-bottom: 25px;
+        text-decoration: none;
+        color: #b22222;
+        font-weight: 600;
+      }
+      .back:hover {
+        text-decoration: underline;
+      }
+      .required {
+        color: #b22222;
+      }
+      .success-msg {
+        display: none;
+        padding: 15px 18px;
+        background: #e6ffed;
+        border: 1px solid #b2f5c5;
+        color: #1f6b3a;
+        border-radius: 6px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reg-hero">
+      <h1>Durga Pujo 2025 Registration</h1>
+      <p>September 28th – October 2nd | Stuttgart</p>
+    </div>
+    <div class="reg-wrapper">
+      <a class="back" href="durga-pujo-2025.html">← Back to Event Page</a>
+      <div id="success" class="success-msg">
+        Thank you! Your registration was recorded (demo).
+      </div>
+      <form id="regForm" onsubmit="handleSubmit(event)">
+        <div class="inline">
+          <div class="field">
+            <label for="firstName"
+              >First Name <span class="required">*</span></label
+            >
+            <input id="firstName" name="firstName" required />
+          </div>
+          <div class="field">
+            <label for="lastName"
+              >Last Name <span class="required">*</span></label
+            >
+            <input id="lastName" name="lastName" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email <span class="required">*</span></label>
+          <input id="email" name="email" type="email" required />
+        </div>
+        <div class="inline">
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" />
+          </div>
+        </div>
+        <fieldset>
+          <legend>
+            Daily Participation & Meals <span class="required">*</span>
+          </legend>
+          <p style="margin-top: 0; font-size: 14px; line-height: 1.4">
+            Tick the options you plan to attend. Choose Full Day OR individual
+            meals (Lunch / Dinner).
+          </p>
+          <table class="day-grid" aria-describedby="dayOptionsHelp">
+            <thead>
+              <tr>
+                <th scope="col">Day</th>
+                <th scope="col">Full Day</th>
+                <th scope="col">Lunch / Bhog</th>
+                <th scope="col">Dinner / Evening</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Shashti (Sun 28 Sept)</td>
+                <td>
+                  <input
+                    type="radio"
+                    name="shashti"
+                    value="full"
+                    aria-label="Shashti Full Day"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="shashti"
+                    value="lunch"
+                    aria-label="Shashti Lunch"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="shashti"
+                    value="dinner"
+                    aria-label="Shashti Dinner"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Saptami (Mon 29 Sept)</td>
+                <td>
+                  <input
+                    type="radio"
+                    name="saptami"
+                    value="full"
+                    aria-label="Saptami Full Day"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="saptami"
+                    value="lunch"
+                    aria-label="Saptami Lunch"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="saptami"
+                    value="dinner"
+                    aria-label="Saptami Dinner"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Ashtami (Tue 30 Sept)</td>
+                <td>
+                  <input
+                    type="radio"
+                    name="ashtami"
+                    value="full"
+                    aria-label="Ashtami Full Day"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="ashtami"
+                    value="lunch"
+                    aria-label="Ashtami Lunch"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="ashtami"
+                    value="dinner"
+                    aria-label="Ashtami Dinner"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Nabami (Wed 1 Oct)</td>
+                <td>
+                  <input
+                    type="radio"
+                    name="nabami"
+                    value="full"
+                    aria-label="Nabami Full Day"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="nabami"
+                    value="lunch"
+                    aria-label="Nabami Lunch"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="nabami"
+                    value="dinner"
+                    aria-label="Nabami Dinner"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Dashami (Thu 2 Oct)</td>
+                <td>
+                  <input
+                    type="radio"
+                    name="dashami"
+                    value="full"
+                    aria-label="Dashami Full Day"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="dashami"
+                    value="lunch"
+                    aria-label="Dashami Lunch"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    name="dashami"
+                    value="dinner"
+                    aria-label="Dashami Dinner"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="mini-note" id="dayOptionsHelp">
+            Select one option per day you will attend (days you skip can be left
+            blank).
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="adults"
+            >Number of Adults Family Members (above 12 years)</label
+          >
+          <input id="adults" name="adults" type="number" min="0" value="0" />
+        </div>
+        <div class="field">
+          <label for="children">Number of Children (between 6- 12 years)</label>
+          <input
+            id="children"
+            name="children"
+            type="number"
+            min="0"
+            value="0"
+          />
+        </div>
+        <div class="field">
+          <label for="infants">Number of Infants (below 6 years)</label>
+          <input id="infants" name="infants" type="number" min="0" value="0" />
+        </div>
+        <div class="field">
+          <label>Food Preference <span class="required">*</span></label>
+          <div style="display: flex; gap: 25px; padding: 6px 2px">
+            <label
+              style="
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+              "
+            >
+              <input type="radio" name="food_pref" value="veg" required /> Veg
+            </label>
+            <label
+              style="
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+              "
+            >
+              <input type="radio" name="food_pref" value="non-veg" required />
+              Non-Veg
+            </label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="volunteer">Interested in Volunteering?</label>
+          <select id="volunteer" name="volunteer">
+            <option>No</option>
+            <option>Yes - Decoration</option>
+            <option>Yes - Food Service</option>
+            <option>Yes - Cultural Program</option>
+            <option>Yes - Logistics</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message"
+            >Comments / Cultural Participation Interest</label
+          >
+          <textarea
+            id="message"
+            name="message"
+            placeholder="E.g., I would like my child to perform a dance, I'm a singer, etc."
+          ></textarea>
+        </div>
+        <div class="actions">
+          <button class="btn" type="submit">Submit Registration</button>
+        </div>
+        <p class="note">
+          This is a demo form (no backend yet). We'll add real submission later.
+        </p>
+      </form>
+    </div>
+    <footer>
+      <p>© 2025 debi e.V. All rights reserved.</p>
+    </footer>
+    <script>
+      function handleSubmit(e) {
+        e.preventDefault();
+        // Validation: ensure at least one radio selected across all days
+        const anySelected = Array.from(
+          document.querySelectorAll('table.day-grid input[type="radio"]')
+        ).some((r) => r.checked);
+        if (!anySelected) {
+          alert("Please select at least one day option.");
+          return;
+        }
+        const success = document.getElementById("success");
+        success.style.display = "block";
+        e.target.reset();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      // (Radio buttons handle mutual exclusivity automatically per day via shared names)
+    </script>
+  </body>
+</html>
