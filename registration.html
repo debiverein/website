@@ -509,6 +509,7 @@
             <strong>72 hours</strong> to confirm your booking. Unpaid
             registrations after 72 hours may be cancelled to free capacity.
           </p>
+
           <div
             style="
               font-size: 13px;
@@ -745,7 +746,11 @@
               2
             )}</strong> | ID: <strong>${
               docRef.id
-            }</strong><br /><span style="opacity:.85">Use this ID + your name in the bank transfer reference within 72h.</span>`,
+            }</strong><br /><span style="opacity:.85">Use this ID + your name in the bank transfer reference within 72h. or you can use to pay now using <button
+            onClick="window.open('https://pay.sumup.com/b2c/QJ20OXH8', '_blank')"
+          >
+            SumUp
+          </button></span>`,
             "success"
           );
           form.reset();
