@@ -166,13 +166,21 @@ nav a {
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  transition: width 0.25s ease, top 0.25s ease, left 0.25s ease;
 }
-
-@media (max-width: 300px) {
+/* Mobile adjustments */
+@media (max-width: 600px) {
   .hero-logo {
-    width: 256px;
-    top: 10px;
-    left: 10px;
+    width: 64px;
+    top: 8px;
+    left: 8px;
+  }
+}
+@media (max-width: 380px) {
+  .hero-logo {
+    width: 54px;
+    top: 6px;
+    left: 6px;
   }
 }
 
