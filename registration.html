@@ -433,6 +433,25 @@
           </div>
         </div>
         <div class="field">
+          <label
+            style="
+              display: flex;
+
+              align-items: center;
+              gap: 8px;
+              font-weight: 500;
+            "
+          >
+            <input
+              type="checkbox"
+              id="isMember"
+              name="isMember"
+              style="width: 20px"
+            />
+            I am a member of DeBI e.V.
+          </label>
+        </div>
+        <div class="field">
           <label>Food Preference <span class="required">*</span></label>
           <div style="display: flex; gap: 25px; padding: 6px 2px">
             <label
@@ -471,7 +490,7 @@
             </label>
           </div>
         </div>
-        <div class="field">
+        <div class="field" id="volunteerField">
           <label for="volunteer">Interested in Volunteering?</label>
           <select id="volunteer" name="volunteer">
             <option>No</option>
@@ -571,6 +590,20 @@
       aria-live="assertive"
     ></div>
     <script>
+      // Hide volunteer field if isMember is checked
+      document.addEventListener("DOMContentLoaded", function () {
+        var isMember = document.getElementById("isMember");
+        var volunteerField = document.getElementById("volunteerField");
+        function toggleVolunteer() {
+          if (isMember.checked) {
+            volunteerField.style.display = "none";
+          } else {
+            volunteerField.style.display = "";
+          }
+        }
+        isMember.addEventListener("change", toggleVolunteer);
+        toggleVolunteer();
+      });
       // Pricing constants (keep in sync with published rates)
       const PRICE_TABLE = {
         adult: { full: 29.99, lunch: 14.99, dinner: 24.99 },
@@ -730,6 +763,7 @@
             adults: Number(formData.get("adults")) || 0,
             children: Number(formData.get("children")) || 0,
             children6: Number(formData.get("children6")) || 0,
+            isMember: !!document.getElementById("isMember")?.checked,
             food_pref: formData.get("food_pref") || "",
             volunteer: formData.get("volunteer") || "",
             message: formData.get("message") || "",
@@ -751,12 +785,7 @@
           >
             SumUp
           </button>
-          or <button onClick="window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=debi.verein@gmail.com&item_name=Registration%20Payment&amount=${total.toFixed(
-            2
-          )}&currency_code=EUR', '_blank')">
-            Paypal
-
-          </button></span>`,
+          </span>`,
             "success"
           );
           form.reset();
