@@ -335,6 +335,26 @@
             <input id="phone" name="phone" />
           </div>
         </div>
+
+        <div class="field">
+          <label
+            style="
+              display: flex;
+
+              align-items: center;
+              gap: 8px;
+              font-weight: 500;
+            "
+          >
+            <input
+              type="checkbox"
+              id="isMember"
+              name="isMember"
+              style="width: 20px"
+            />
+            I am a member of DeBI e.V.
+          </label>
+        </div>
         <fieldset>
           <legend>
             Daily Participation & Meals <span class="required">*</span>
@@ -348,7 +368,7 @@
               <label for="shashtiSel">Shashti (Sun 28 Sept)</label>
               <select name="shashti" id="shashtiSel">
                 <option value="">None</option>
-                <option value="full">Full Day</option>
+                <option value="full" id="shashtiFullOpt">Full Day</option>
                 <option value="dinner">Dinner</option>
               </select>
             </div>
@@ -415,6 +435,7 @@
             value="0"
           />
         </div>
+
         <div class="field">
           <label for="totalCost">Total Cost (estimated)</label>
           <input
@@ -432,25 +453,7 @@
             12.99). Child below 6 free.
           </div>
         </div>
-        <div class="field">
-          <label
-            style="
-              display: flex;
 
-              align-items: center;
-              gap: 8px;
-              font-weight: 500;
-            "
-          >
-            <input
-              type="checkbox"
-              id="isMember"
-              name="isMember"
-              style="width: 20px"
-            />
-            I am a member of DeBI e.V.
-          </label>
-        </div>
         <div class="field">
           <label>Food Preference <span class="required">*</span></label>
           <div style="display: flex; gap: 25px; padding: 6px 2px">
@@ -590,19 +593,32 @@
       aria-live="assertive"
     ></div>
     <script>
-      // Hide volunteer field if isMember is checked
+      // Member-dependent UI (volunteer field & Shashti full-day option)
       document.addEventListener("DOMContentLoaded", function () {
-        var isMember = document.getElementById("isMember");
-        var volunteerField = document.getElementById("volunteerField");
-        function toggleVolunteer() {
-          if (isMember.checked) {
-            volunteerField.style.display = "none";
-          } else {
-            volunteerField.style.display = "";
+        const isMember = document.getElementById("isMember");
+        const volunteerField = document.getElementById("volunteerField");
+        const shashtiFull = document.getElementById("shashtiFullOpt");
+        const shashtiSel = document.getElementById("shashtiSel");
+        function applyMemberToggles() {
+          // Volunteer field hidden for members
+          volunteerField.style.display = isMember.checked ? "none" : "";
+          // Shashti Full Day only for members
+          if (shashtiFull) {
+            if (isMember.checked) {
+              shashtiFull.disabled = false;
+              shashtiFull.hidden = false;
+            } else {
+              if (shashtiSel.value === "full") {
+                shashtiSel.value = ""; // clear selection if was full
+                calcTotal();
+              }
+              shashtiFull.disabled = true;
+              shashtiFull.hidden = true;
+            }
           }
         }
-        isMember.addEventListener("change", toggleVolunteer);
-        toggleVolunteer();
+        isMember.addEventListener("change", applyMemberToggles);
+        applyMemberToggles();
       });
       // Pricing constants (keep in sync with published rates)
       const PRICE_TABLE = {
