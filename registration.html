@@ -451,7 +451,13 @@
             Calculated from selected day options: Adult (Full 29.99 / Lunch
             14.99 / Dinner 24.99) | Child 6–12 (Full 15.99 / Lunch 8.99 / Dinner
             12.99). Child below 6 free.
+            <strong>If "Student" = Yes, 10% discount applies.</strong>
           </div>
+          <div
+            id="discountNote"
+            class="mini-note"
+            style="display: none; color: #0a5c2f; font-weight: 600"
+          ></div>
         </div>
 
         <div class="field">
@@ -492,6 +498,13 @@
               Non-Veg
             </label>
           </div>
+        </div>
+        <div class="field" id="studentField">
+          <label for="student">Are you a student? (Upto Masters)</label>
+          <select id="student" name="student">
+            <option>No</option>
+            <option>Yes</option>
+          </select>
         </div>
         <div class="field" id="volunteerField">
           <label for="volunteer">Interested in Volunteering?</label>
@@ -641,7 +654,26 @@
               children * PRICE_TABLE.child[val];
           }
         });
+        const studentSel = document.getElementById("student");
+        const isStudent = studentSel && studentSel.value === "Yes";
+        let discount = 0;
+        if (isStudent) {
+          discount = total * 0.1; // 10% discount
+          total = total - discount;
+        }
         document.getElementById("totalCost").value = "€" + total.toFixed(2);
+        const dn = document.getElementById("discountNote");
+        if (dn) {
+          if (discount > 0) {
+            dn.style.display = "block";
+            dn.textContent = `Student discount applied: -€${discount.toFixed(
+              2
+            )} (10%)`;
+          } else {
+            dn.style.display = "none";
+            dn.textContent = "";
+          }
+        }
       }
 
       function handleSubmit(e) {
@@ -683,11 +715,14 @@
           ),
           document.getElementById("adults"),
           document.getElementById("children"),
+          document.getElementById("student"),
         ].filter(Boolean);
         inputs.forEach((el) => {
           el.addEventListener("change", calcTotal);
           el.addEventListener("input", calcTotal);
         });
+        // initial calc
+        calcTotal();
       })();
 
       function clearDaySelections() {
@@ -718,8 +753,8 @@
           '<button class="close-btn" aria-label="Close notification" onclick="hideNotification()">×</button>' +
           messageHtml;
         bar.style.display = "block";
-        clearTimeout(window.__notifTimer);
-        window.__notifTimer = setTimeout(() => hideNotification(), 15000);
+        // clearTimeout(window.__notifTimer);
+        // window.__notifTimer = setTimeout(() => hideNotification(), 15000);
       }
       function hideNotification() {
         const bar = document.getElementById("notif");
@@ -780,11 +815,15 @@
             children: Number(formData.get("children")) || 0,
             children6: Number(formData.get("children6")) || 0,
             isMember: !!document.getElementById("isMember")?.checked,
+            student: (formData.get("student") || "No") === "Yes",
             food_pref: formData.get("food_pref") || "",
             volunteer: formData.get("volunteer") || "",
             message: formData.get("message") || "",
             days,
             total,
+            discountApplied:
+              document.getElementById("discountNote")?.style.display ===
+                "block" || false,
             paymentAck: !!document.getElementById("paymentAck")?.checked,
             createdAt: new Date().toISOString(),
             createdAtServer: serverTimestamp(),
