@@ -370,6 +370,7 @@
                 <option value="">None</option>
                 <option value="full" id="shashtiFullOpt">Full Day</option>
                 <option value="dinner">Dinner</option>
+                <option value="visitor">Visitor (Entry Only)</option>
               </select>
             </div>
             <div class="day-select">
@@ -379,6 +380,7 @@
                 <option value="full">Full Day</option>
                 <!-- <option value="lunch">Lunch</option> -->
                 <option value="dinner">Dinner</option>
+                <option value="visitor">Visitor (Entry Only)</option>
               </select>
             </div>
             <div class="day-select">
@@ -388,6 +390,7 @@
                 <option value="full">Full Day</option>
                 <!-- <option value="lunch">Lunch</option> -->
                 <option value="dinner">Dinner</option>
+                <option value="visitor">Visitor (Entry Only)</option>
               </select>
             </div>
             <div class="day-select">
@@ -397,6 +400,7 @@
                 <option value="full">Full Day</option>
                 <!-- <option value="lunch">Lunch</option> -->
                 <option value="dinner">Dinner</option>
+                <option value="visitor">Visitor (Entry Only)</option>
               </select>
             </div>
             <div class="day-select">
@@ -404,6 +408,7 @@
               <select name="dashami" id="dashamiSel">
                 <option value="">None</option>
                 <option value="dinner">Lunch</option>
+                <option value="visitor">Visitor (Entry Only)</option>
               </select>
             </div>
           </div>
@@ -450,7 +455,7 @@
           <div id="totalCostHelp" class="mini-note">
             Calculated from selected day options: Adult (Full 29.99 / Lunch
             14.99 / Dinner 24.99) | Child 6–12 (Full 15.99 / Lunch 8.99 / Dinner
-            12.99). Child below 6 free.
+            12.99) | Visitor (Entry Only) 10.00 (no meals). Child below 6 free.
             <strong>If "Student" = Yes, 10% discount applies.</strong>
           </div>
           <div
@@ -661,8 +666,8 @@
       });
       // Pricing constants (keep in sync with published rates)
       const PRICE_TABLE = {
-        adult: { full: 29.99, lunch: 14.99, dinner: 24.99 },
-        child: { full: 15.99, lunch: 8.99, dinner: 12.99 },
+        adult: { full: 29.99, lunch: 14.99, dinner: 24.99, visitor: 10.0 },
+        child: { full: 15.99, lunch: 8.99, dinner: 12.99, visitor: 10.0 },
       };
 
       function calcTotal() {
@@ -676,8 +681,8 @@
           const val = document.querySelector(`[name="${d}"]`)?.value;
           if (val) {
             total +=
-              adults * PRICE_TABLE.adult[val] +
-              children * PRICE_TABLE.child[val];
+              adults * (PRICE_TABLE.adult[val] || 0) +
+              children * (PRICE_TABLE.child[val] || 0);
           }
         });
         const studentSel = document.getElementById("student");
