@@ -522,6 +522,24 @@
           </select>
         </div>
         <div class="field">
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              font-weight: 500;
+            "
+          >
+            <input
+              type="checkbox"
+              id="earlyTakeaway"
+              name="earlyTakeaway"
+              style="width: 18px"
+            />
+            Need early dinner takeaway
+          </label>
+        </div>
+        <div class="field">
           <label for="message"
             >Comments / Cultural Participation Interest</label
           >
@@ -649,15 +667,15 @@
           // Shashti Full Day only for members
           if (shashtiFull) {
             if (isMember.checked) {
-              shashtiFull.disabled = false;
-              shashtiFull.hidden = false;
+              // shashtiFull.disabled = false;
+              // shashtiFull.hidden = false;
             } else {
               if (shashtiSel.value === "full") {
                 shashtiSel.value = ""; // clear selection if was full
                 calcTotal();
               }
-              shashtiFull.disabled = true;
-              shashtiFull.hidden = true;
+              // shashtiFull.disabled = true;
+              // shashtiFull.hidden = true;
             }
           }
         }
@@ -849,6 +867,7 @@
             student: (formData.get("student") || "No") === "Yes",
             food_pref: formData.get("food_pref") || "",
             volunteer: formData.get("volunteer") || "",
+            earlyTakeaway: !!document.getElementById("earlyTakeaway")?.checked,
             message: formData.get("message") || "",
             days,
             total,
