@@ -394,8 +394,16 @@
               </select>
             </div>
             <div class="day-select">
-              <label for="nabamiSel">Nabami (Wed 1 Oct)</label>
-              <select name="nabami" id="nabamiSel">
+              <label for="nabamiSel" style="color: #aaa"
+                >Nabami (Wed 1 Oct)
+                <span style="color: #b22222">(Fully Booked)</span></label
+              >
+              <select
+                name="nabami"
+                id="nabamiSel"
+                disabled
+                style="background: #f3f3f3; color: #aaa"
+              >
                 <option value="">None</option>
                 <option value="full">Full Day</option>
                 <!-- <option value="lunch">Lunch</option> -->
