@@ -205,8 +205,8 @@
         display: block;
         margin: 25px auto 40px;
         max-width: 100%;
-        width: 640px;
-        height: 420px;
+        width: 340px;
+        height: 220px;
         border: 0;
         border-radius: 10px;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
@@ -296,16 +296,31 @@
       <h1>Durga Pujo 2025 Registration</h1>
       <p>September 28th – October 2nd | Elbestraße 39, 70376 Stuttgart</p>
     </div>
-    <div>
-      <h2 style="text-align: center; margin-top: 50px">Location</h2>
-      <iframe
-        class="location-map"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d333921.36229970894!2d8.099914771215836!3d49.16715133432002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799c54253690ced%3A0x2997769acd900aa7!2sElbestra%C3%9Fe%2039%2C%2070376%20Stuttgart!5e0!3m2!1sen!2sde!4v1755413279393!5m2!1sen!2sde"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Event Location Map"
-      ></iframe>
+
+    <div style="display: flex; gap: 10px; justify-content: center;">
+      <div>
+        <h2 style="text-align: center; margin-top: 50px">Location</h2>
+        <iframe
+          class="location-map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d333921.36229970894!2d8.099914771215836!3d49.16715133432002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799c54253690ced%3A0x2997769acd900aa7!2sElbestra%C3%9Fe%2039%2C%2070376%20Stuttgart!5e0!3m2!1sen!2sde!4v1755413279393!5m2!1sen!2sde"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Event Location Map"
+        ></iframe>
+      </div>
+      <div style="text-align: center; margin: 48px 0 24px 0">
+        <img
+          src="mnt/schedule.png"
+          alt="Event Schedule"
+          style="
+            width: 500px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 16px #0002;
+          "
+        />
+      </div>
     </div>
     <div class="reg-wrapper">
       <a class="back" href="durga-pujo-2025.html">← Back to Event Page</a>
@@ -377,8 +392,11 @@
               </select>
             </div>
             <div class="day-select">
-              <label for="saptamiSel">Saptami (Mon 29 Sept)</label>
-              <select name="saptami" id="saptamiSel">
+              <label for="saptamiSel" style="color: #aaa"
+                >Saptami (Mon 29 Sept)
+                <span style="color: #b22222">(Closed)</span>
+              </label>
+              <select name="saptami" id="saptamiSel" disabled>
                 <option value="">None</option>
                 <option value="full">Full Day</option>
                 <!-- <option value="lunch">Lunch</option> -->
@@ -650,6 +668,7 @@
         </p>
       </form>
     </div>
+
     <footer>
       <p>
         © 2025 debi e.V. All rights reserved. |
@@ -665,6 +684,7 @@
       role="alert"
       aria-live="assertive"
     ></div>
+
     <script>
       // Member-dependent UI (volunteer field & Shashti full-day option)
       document.addEventListener("DOMContentLoaded", function () {
