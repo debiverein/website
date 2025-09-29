@@ -297,7 +297,7 @@
       <p>September 28th – October 2nd | Elbestraße 39, 70376 Stuttgart</p>
     </div>
 
-    <div style="display: flex; gap: 10px; justify-content: center;">
+    <div style="display: flex; gap: 10px; justify-content: center">
       <div>
         <h2 style="text-align: center; margin-top: 50px">Location</h2>
         <iframe
@@ -405,8 +405,12 @@
               </select>
             </div>
             <div class="day-select">
-              <label for="ashtamiSel">Ashtami (Tue 30 Sept)</label>
-              <select name="ashtami" id="ashtamiSel">
+              <label for="ashtamiSel" style="color: #aaa"
+                >Ashtami (Tue 30 Sept)
+
+                <span style="color: #b22222">(Closed)</span></label
+              >
+              <select name="ashtami" id="ashtamiSel" disabled>
                 <option value="">None</option>
                 <option value="full">Full Day</option>
                 <!-- <option value="lunch">Lunch</option> -->
@@ -417,7 +421,7 @@
             <div class="day-select">
               <label for="nabamiSel" style="color: #aaa"
                 >Nabami (Wed 1 Oct)
-                <span style="color: #b22222">(Fully Booked)</span></label
+                <span style="color: #b22222">(Closed)</span></label
               >
               <select
                 name="nabami"
